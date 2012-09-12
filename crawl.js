@@ -1,10 +1,9 @@
 // Count all of the links from the nodejs build page
 var jsdom = require("jsdom");
 var mongoose = require('mongoose'),
-    db = mongoose.connect('mongodb://localhost/flathunt');
+    db = mongoose.createConnection('localhost', 'flathunt');
 
-var Schema = mongoose.Schema;
-var schema = new Schema({
+var schema = new mongoose.Schema({
     'id': String,
     'title': String,
     'date': String,
@@ -12,13 +11,20 @@ var schema = new Schema({
     'link': String
 });
 
-var Flat = mongoose.model('Flat', schema);
+var Flat = db.model('Flat', schema);
+
+
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+
 
 jsdom.env("http://www.gumtree.com/flats-and-houses-for-rent-offered/london", [
   'http://code.jquery.com/jquery-1.5.min.js'
 ],
 
 function(errors, window) {
+
+
   $ = window.$;
   var results = [];
   var links = $('#search-results ul.ad-listings li');
@@ -36,12 +42,13 @@ function(errors, window) {
     entry.save(function (err) {
         if (err) throw err;
         console.log('saved');
-
-
-        Flat.count();
     });
   });
 
 
   console.log(results.length);
+
+  window.close();
+  return;
+});
 });
