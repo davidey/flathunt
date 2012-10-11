@@ -1,0 +1,25 @@
+var fs = require("fs");
+
+var environments = {
+	dev: {
+		startPage: 'mock/flatlist.html',
+		jsDomOptions: {
+			src: [
+				fs.readFileSync('./mock/jquery-1.8.2.min.js').toString()
+			]
+		}
+	},
+	prod: {
+		startPage: 'http://www.gumtree.com/flats-and-houses-for-rent-offered/london',
+		jsDomOptions: { 
+			scripts: [
+				'http://code.jquery.com/jquery-1.5.min.js'
+			]
+		}
+	}
+}
+
+var Settings = environments.dev;
+
+
+module.exports = Settings;
