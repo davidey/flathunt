@@ -4,8 +4,8 @@ var environments = {
 	dev: {
 		startPage: 'mock/flatlist.html',
 		jsDomOptions: {
-			src: [
-				fs.readFileSync('./mock/jquery-1.8.2.min.js').toString()
+			scripts: [
+				'./jquery-1.8.2.min.js'
 			]
 		}
 	},
@@ -20,6 +20,5 @@ var environments = {
 }
 
 var Settings = environments.dev;
-
 
 module.exports = Settings;

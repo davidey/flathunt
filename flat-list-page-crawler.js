@@ -7,20 +7,19 @@ var FlatListPageCrawler = function FlatListPageCrawler(options) {
 };
 
 FlatListPageCrawler.prototype.crawl = function crawl(page, callback) {
-  jsdom.env({
-    html: page,
-    scripts: this.options.jsDomOptions.scripts,
-    src: this.options.jsDomOptions.src,
-    done: function (errors, window) {
+  jsdom.env(
+    page,
+    this.options.jsDomOptions.scripts,
+    function (errors, window) {
       this.crawlEngine(window, callback);
     }.bind(this)
-  });
+  );
 };
 
 FlatListPageCrawler.prototype.crawlEngine = function crawlEngine(window, callback) {
   $ = window.$;
   var results = [];
-  var links = $('#search-results ul.ad-listings li');
+  var links = $('#search-results ul.ad-listings li.hlisting');
   links.each(function () {
     var $this = $(this);
     var entry = {};
