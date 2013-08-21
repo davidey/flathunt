@@ -18,9 +18,14 @@ FlatListPageCrawler.prototype.crawl = function crawl(page, callback) {
 
 FlatListPageCrawler.prototype.crawlEngine = function crawlEngine(window, callback) {
   $ = window.$;
-  var results = [];
-  var links = $('#search-results ul.ad-listings li.hlisting');
-  links.each(function () {
+
+  var results = {
+    items: [],
+    nextPageLink: null
+  };
+
+  var items = $('#search-results ul.ad-listings li.hlisting');
+  items.each(function () {
     var $this = $(this);
     var entry = {};
     entry.id = $this.find('a').attr('id').match(/([0-9]+)/g)[0];
@@ -29,8 +34,11 @@ FlatListPageCrawler.prototype.crawlEngine = function crawlEngine(window, callbac
     entry.price = $this.find('span.price').text().match(/[0-9]+/g)[0];
     entry.link = $this.find('a').attr('href');
     //console.log(entry);
-    results.push(entry);
+    results.items.push(entry);
   });
+
+  var nextPageLink = $('#pagination li.pag-next a').attr('href');
+  results.nextPageLink = nextPageLink;
 
   window.close();
   callback(results);
