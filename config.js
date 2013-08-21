@@ -19,6 +19,4 @@ var environments = {
 	}
 }
 
-var Settings = environments.dev;
-
-module.exports = Settings;
+module.exports = environments;
