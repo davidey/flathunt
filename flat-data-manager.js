@@ -1,35 +1,17 @@
 // Count all of the links from the nodejs build page
-var mongoose = require('mongoose');
 var events = require('events');
+var FlatModel = require('./model.flat.js');
 
-var FlatDataManager = function FlatDataManager(options, callback) {
+var FlatDataManager = function FlatDataManager(options) {
   // Requires a libraries property
   this.options = options;
   this.events = new events.EventEmitter();
 
-  mongoose.connect('mongodb://localhost/flathunt', function (err, res) {
-    if (err) {
-      console.log('Error!');
-    } 
-
-    console.log('open');
-    this.flatSchema = mongoose.Schema({
-      id: String,
-      title: String,
-      date: String,
-      link: String
-    });
-
-    this.flatModel = mongoose.model('flats', this.flatSchema);
-
-    this.events.emit('initialized');
-    callback();
-
-  }.bind(this));
+  this.events.emit('initialized');
 };
 
 FlatDataManager.prototype.saveFlat = function saveFlat(flat) {
-  var newFlat = new this.flatModel(flat);
+  var newFlat = new FlatModel(flat);
   console.log(newFlat);
 
   newFlat.save(function (err, elem) {
@@ -39,9 +21,8 @@ FlatDataManager.prototype.saveFlat = function saveFlat(flat) {
   });
 };
 
-
 FlatDataManager.prototype.flatExists = function flatExists(flatId, callback) {
-  this.flatModel.find({
+  FlatModel.find({
     id: flatId
   }, function (err, res) {
     if (err) {

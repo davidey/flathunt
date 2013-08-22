@@ -1,31 +1,10 @@
 var Config = require('./config.js');
-var FlatListPageCrawler = require('./flat-list-page-crawler.js');
-var FlatDataManager = require('./flat-data-manager.js');
-var AppPropertiesModel = require('./model.app-properties.js');
+var Application = require('./application.js');
 
-var Settings = Config.dev;
+var settings = Config.prod;
 
-var flats = [];
-
-var flatListPageCrawler = new FlatListPageCrawler({
-	jsDomOptions: Settings.jsDomOptions
+var application = new Application({
+	jsDomOptions: settings.jsDomOptions
 });
 
-var flatDataManager = new FlatDataManager({}, function() {
-
-	flatListPageCrawler.crawl(Settings.startPage, function (results) {
-		flats = results;	
-
-		flats.forEach(function (elem) {
-			flatDataManager.flatExists(elem.id, function(err, res) {
-				if (res) {
-					console.log("Flat already there!");
-					return;
-				}
-				console.log("Saving flat");
-				flatDataManager.saveFlat(elem);
-			}.bind(this));
-		});
-	})
-
-});
+application.start(settings.startPage);

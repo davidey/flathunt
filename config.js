@@ -19,4 +19,7 @@ var environments = {
 	}
 }
 
+// Temporary set the test environment as the dev one
+environments.test = environments.dev;
+
 module.exports = environments;

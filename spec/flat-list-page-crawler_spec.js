@@ -3,7 +3,7 @@ var FlatListPageCrawler = require('../flat-list-page-crawler.js');
 
 var Settings = Config.dev;
 
-describe('BK.Api', function () {
+describe('FlatListPageCrawler', function () {
 	'use strict';
 
 	var flatListPageCrawler;

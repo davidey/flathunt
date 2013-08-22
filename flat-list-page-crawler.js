@@ -16,6 +16,10 @@ FlatListPageCrawler.prototype.crawl = function crawl(page, callback) {
   );
 };
 
+/**
+ * Crawl engine for the given window object
+ * @returns The page crawled properies: {items: Array, nextPageLink: String}
+ */
 FlatListPageCrawler.prototype.crawlEngine = function crawlEngine(window, callback) {
   $ = window.$;
 
@@ -30,7 +34,7 @@ FlatListPageCrawler.prototype.crawlEngine = function crawlEngine(window, callbac
     var entry = {};
     entry.id = $this.find('a').attr('id').match(/([0-9]+)/g)[0];
     entry.title = $this.find('a').attr('title');
-    entry.date = $this.find('span.post-date').attr('title');
+    entry.date = new Date($this.find('span.post-date').attr('title'));
     entry.price = $this.find('span.price').text().match(/[0-9]+/g)[0];
     entry.link = $this.find('a').attr('href');
     //console.log(entry);
