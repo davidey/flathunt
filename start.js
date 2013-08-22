@@ -1,6 +1,7 @@
 var Config = require('./config.js');
 var FlatListPageCrawler = require('./flat-list-page-crawler.js');
 var FlatDataManager = require('./flat-data-manager.js');
+var AppPropertiesModel = require('./model.app-properties.js');
 
 var Settings = Config.dev;
 
