@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var FlatSchema = mongoose.Schema({
     id: String,
     title: String,
+    price: Number,
     date: Date,
     link: String
   });
