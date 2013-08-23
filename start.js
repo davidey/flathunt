@@ -1,13 +1,20 @@
 var Config = require('./config.js');
-var Persistency = require('.persistency.js');
+var Persistency = require('./persistency.js');
 var Application = require('./application.js');
 
 var settings = Config.prod;
+var application;
 
-var application = new Application({
-	jsDomOptions: settings.jsDomOptions
+var persistency = new Persistency(settings.persistency.uri, {
+	connectionOptions: settings.persistency.options
 });
 
-var persistency = new Persistency(function () {
-	application.start(settings.startPage);
+persistency.connect(function () {
+	persistency.loadAppProperties(function (appProperties) {
+		application = new Application(appProperties, {
+			jsDomOptions: settings.jsDomOptions
+		});
+
+		application.start(settings.startPage);
+	});
 });
