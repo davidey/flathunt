@@ -1,20 +1,19 @@
-var mongoose = require('mongoose');
 var moment = require('moment');
+var _ = require('underscore');
 
-var AppPropertiesModel = require('./model.app-properties.js');
 var FlatListPageCrawler = require('./flat-list-page-crawler.js');
 var FlatDataManager = require('./flat-data-manager.js');
 
-var Application = function Application(options) {
+var Application = function Application(appProperties, options) {
 	// Default options
 	this.defaultOptions = {
 		parseNextPageBaseDelay: 10000,
-		parseNextPageMargin: 5000
+		parseNextPageMargin: 2500
 	};
 
-	this.options = options;
+	this.options = _.extend(this.defaultOptions, options);
 
-	this.appProperties = null;
+	this.appProperties = appProperties;
 
 	this.flatListPageCrawler = new FlatListPageCrawler({
 		jsDomOptions: this.options.jsDomOptions
@@ -22,39 +21,11 @@ var Application = function Application(options) {
 };
 
 Application.prototype.start = function start(startPage) {
-	this.connectToDb(function () {
-		this.flatDataManager = new FlatDataManager({});
-		this.loadProperties(function () {
-			console.log(this.appProperties);
-			this.parse(startPage, function (result) {
-					this.saveItems(result.items);
-			}.bind(this));
-		}.bind(this));
+	this.flatDataManager = new FlatDataManager({});
+	this.parse(startPage, function (result) {
+		this.saveItems(result.items);
 	}.bind(this));
 };
-
-Application.prototype.connectToDb = function connectToDb(onDone) {
-	mongoose.connect('mongodb://localhost/flathunt', function (err, res) {
-		if (err) {
-			console.log('Error connecting to Mongo!');
-			return;
-		}
-
-		onDone();
-	});
-}
-
-Application.prototype.loadProperties = function loadProperties(onDone) {
-	AppPropertiesModel.findOne({}, function (err, result) {
-		if (result) {
-			this.appProperties = result;
-		} else {
-			this.appProperties = AppPropertiesModel.create({}, function () {});
-		}
-
-		onDone();
-	}.bind(this));
-}
 
 Application.prototype.parse = function parse(page, onCompleteCallback) {
 	this.flatListPageCrawler.crawl(page, function (result) {
@@ -90,7 +61,7 @@ Application.prototype.saveItems = function saveItems(items) {
 }
 
 Application.prototype.generateParseNextPageDelay = function generateParseNextPageDelay() {
-	var result = this.options.parseNextPageBaseDelay + (Math.random() * this.options.parseNextPageMargin);
+	var result = this.options.parseNextPageBaseDelay + (Math.random() * this.options.parseNextPageMargin * 2 - this.options.parseNextPageMargin);
 	return result;
 }
 
