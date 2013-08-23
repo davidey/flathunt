@@ -2,14 +2,16 @@ require('monckoose');
 
 var Config = require('../config');
 var Application = require('../application.js');
+var AppPropertiesModel = require('../model.app-properties.js');
 
 describe('Application', function () {
 	'use strict';
 
 	var application;
+	var appPropertiesModel = new AppPropertiesModel();
 
 	beforeEach(function () {
-		application = new Application({
+		application = new Application(appPropertiesModel, {
 			jsDomOptions: Config.test.jsDomOptions
 		});
 	});
@@ -24,7 +26,7 @@ describe('Application', function () {
 	});
 
 	describe('generateParseNextPageDelay()', function () {
-		it("should return a value between 7500 and 12500", function(done) {
+		it("should return a value between 7500 and 12500", function() {
 			var result = application.generateParseNextPageDelay();
 
 			expect(result >= 7500).toBeTruthy();
