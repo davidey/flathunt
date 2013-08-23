@@ -12,7 +12,6 @@ var FlatDataManager = function FlatDataManager(options) {
 
 FlatDataManager.prototype.saveFlat = function saveFlat(flat) {
   var newFlat = new FlatModel(flat);
-  console.log(newFlat);
 
   newFlat.save(function (err, elem) {
     if (err) {
