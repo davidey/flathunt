@@ -6,7 +6,12 @@ var FlatListPageCrawler = require('./flat-list-page-crawler.js');
 var FlatDataManager = require('./flat-data-manager.js');
 
 var Application = function Application(options) {
-	// Requires a libraries property
+	// Default options
+	this.defaultOptions = {
+		parseNextPageBaseDelay: 10000,
+		parseNextPageMargin: 5000
+	};
+
 	this.options = options;
 
 	this.appProperties = null;
@@ -56,14 +61,17 @@ Application.prototype.parse = function parse(page, onCompleteCallback) {
 		onCompleteCallback(result);
 
 		var lastItemIndex = result.items.length - 1;
-		var lastItemDate = result.items[lastItemIndex].date;
+		var lastItemDate = new Date(result.items[lastItemIndex].date);
+		var oldestFlatFetch = this.appProperties.get('oldestFlatFetch');
 
-		if (moment(this.appProperties.get('oldestFlatFetch')).isAfter(moment(lastItemDate))) {
+		console.log('Check last item date ' + lastItemDate + ' against last fetched date ' + oldestFlatFetch);
+
+		if (moment(oldestFlatFetch).isBefore(moment(lastItemDate))) {
 			// Parse next page
 			console.log('About to parse next page..');
 			setTimeout(function () {
 				this.parse(result.nextPageLink, onCompleteCallback);
-			}.bind(this), 5000 + (Math.random() * 5000));
+			}.bind(this), this.generateParseNextPageDelay());
 		}
 	}.bind(this));
 }
@@ -72,13 +80,18 @@ Application.prototype.saveItems = function saveItems(items) {
 	items.forEach(function (item) {
 		this.flatDataManager.flatExists(item.id, function(err, res) {
 			if (res) {
-				console.log("Flat already there!");
+				console.log('Flat ' + item.id + ' already there!');
 				return;
 			}
-			console.log("Saving flat");
+			console.log('Saving flat ' + item.id);
 			this.flatDataManager.saveFlat(item);
 		}.bind(this));
 	}.bind(this));
+}
+
+Application.prototype.generateParseNextPageDelay = function generateParseNextPageDelay() {
+	var result = this.options.parseNextPageBaseDelay + (Math.random() * this.options.parseNextPageMargin);
+	return result;
 }
 
 module.exports = Application;
