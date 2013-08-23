@@ -36,8 +36,25 @@ FlatListPageCrawler.prototype.crawlEngine = function crawlEngine(window, callbac
     entry.id = $this.find('a').attr('id').match(/([0-9]+)/g)[0];
     entry.title = $this.find('a').attr('title');
     entry.date = $this.find('div.ad-features span.dtlisted').attr('title');
-    entry.price = $this.find('span.price').text().match(/[0-9]+/g)[0];
+
+    var price =  $this.find('span.price').text();
+    var priceRe = /([0-9]+)([A-z]*)/gi;
+    var priceMatch = priceRe.exec(price);
+
+    entry.price = priceMatch[1];
+    entry.pricePeriod = priceMatch[2];
+
     entry.link = $this.find('a').attr('href');
+    entry.thumbnail = $this.find('img.thumbnail').attr('src');
+
+    entry.sellerType = '';
+    var $sellerType = $this.find('div.ad-features span.seller-type');
+    if ($sellerType.length > 0) {
+      entry.sellerType = $sellerType.text();
+    }
+
+    entry.location = $this.find('div.location-and-date span.location').text();
+    entry.availableDate = $this.find('div.location-and-date span.displayed-date').text();
 
     console.log('Found flat id ' + entry.id);
 
