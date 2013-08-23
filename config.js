@@ -7,7 +7,7 @@ environments.dev = {
 	startPage: 'mock/flatlist.html',
 	jsDomOptions: {
 		scripts: [
-			'./jquery-1.8.2.min.js'
+			__dirname + '/mock/jquery-1.8.2.min.js'
 		]
 	},
 	persistency: {
