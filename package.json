@@ -6,8 +6,10 @@
   "dependencies": {
     "express": "3.x",
     "mongoose": "3.x",
+    "monckoose": "",
     "jsdom": "0.8.x",
-    "contextify": "0.1.x",
-    "moment": "x.x"
+    "contextify": "",
+    "moment": "",
+    "underscore": ""
   }
 }

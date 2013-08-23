@@ -1,3 +1,5 @@
+require('monckoose');
+
 var Config = require('../config');
 var Application = require('../application.js');
 
