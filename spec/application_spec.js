@@ -20,4 +20,13 @@ describe('Application', function () {
 			});
 		});
 	});
+
+	describe('generateParseNextPageDelay()', function () {
+		it("should return a value between 7500 and 12500", function(done) {
+			var result = application.generateParseNextPageDelay();
+
+			expect(result >= 7500).toBeTruthy();
+			expect(result <= 12500).toBeTruthy();
+		});
+	});
 });
