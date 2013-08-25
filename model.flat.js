@@ -5,7 +5,13 @@ var FlatSchema = mongoose.Schema({
     title: String,
     price: Number,
     date: Date,
-    link: String
+    link: String,
+
+    description: String,
+    bedrooms: Number,
+    latitude: Number,
+    longitude: Number,
+    images: mongoose.Schema.Types.Mixed
   });
 
 var FlatModel = mongoose.model('flats', FlatSchema);
