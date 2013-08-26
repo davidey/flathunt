@@ -5,7 +5,7 @@ var appPropertiesSchema = mongoose.Schema({
 	oldestFlatFetch: {
 		type: Date,
 		// Set the default date to 3 days ago
-		default: moment().subtract('days', 3).startOf('day')
+		default: moment().subtract('days', 10).startOf('day').toDate()
 	},
 });
 
