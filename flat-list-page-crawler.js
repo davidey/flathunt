@@ -35,8 +35,6 @@ FlatListPageCrawler.prototype.crawlEngine = function crawlEngine(window, callbac
 
     var entry = self.parseItem($this);
 
-    console.log('Found flat id ' + entry.id);
-
     // Sanitize
     if (!entry.date) {
       console.log('Skipping ' + entry.id + ', missing date');
@@ -45,6 +43,8 @@ FlatListPageCrawler.prototype.crawlEngine = function crawlEngine(window, callbac
 
     results.items.push(entry);
   });
+
+  console.log('Crawled ' + results.items.length + ' items');
 
   var nextPageLink = $('#pagination li.pag-next a').attr('href');
   results.nextPageLink = nextPageLink;

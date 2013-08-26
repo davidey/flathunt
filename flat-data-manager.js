@@ -15,7 +15,7 @@ FlatDataManager.prototype.saveFlat = function saveFlat(flat) {
 
   newFlat.save(function (err, elem) {
     if (err) {
-      console.log("Can't save ", elem);
+      console.log("Can't save ", flat, err);
     }
   });
 };
