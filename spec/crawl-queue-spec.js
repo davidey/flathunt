@@ -88,7 +88,6 @@ describe('CrawlQueue', function () {
 
 			expect(onDone).toHaveBeenCalledWith('result');
 			expect(callback).toHaveBeenCalledWith('result');
-			expect(crawlEngine.crawl).toHaveBeenCalledWith(uri, onDone);
 		});
 	});
 
