@@ -4,8 +4,16 @@ var FlatSchema = mongoose.Schema({
     id: String,
     title: String,
     price: Number,
+    pricePeriod: String,
     date: Date,
     link: String,
+    thumbnail: String,
+    sellerType: String,
+    location: String,
+    availableDate: Date,
+
+
+    isFetched: false,
 
     description: String,
     bedrooms: Number,
