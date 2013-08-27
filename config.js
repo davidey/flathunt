@@ -17,7 +17,7 @@ environments.dev = {
 };
 
 environments.prod = {
-	startPage: 'http://www.gumtree.com/flats-and-houses-for-rent/london/page9?beds=4_to_5&price=up_to_650',
+	startPage: 'http://www.gumtree.com/flats-and-houses-for-rent/london/page1?beds=4_to_5&price=up_to_650',
 	jsDomOptions: { 
 		scripts: [
 			'http://code.jquery.com/jquery-1.5.min.js'
