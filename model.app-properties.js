@@ -9,6 +9,6 @@ var appPropertiesSchema = mongoose.Schema({
 	},
 });
 
-var AppPropertiesModel = mongoose.model('AppProperties', appPropertiesSchema);
+var AppPropertiesModel = mongoose.model('appProperties', appPropertiesSchema);
 
 module.exports = AppPropertiesModel;
