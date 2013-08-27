@@ -13,6 +13,8 @@ var FlatDataManager = function FlatDataManager(options) {
 FlatDataManager.prototype.saveFlat = function saveFlat(flat) {
   var newFlat = new FlatModel(flat);
 
+  console.log('Saving flat ' + newFlat.get('id'));
+
   newFlat.save(function (err, elem) {
     if (err) {
       console.log("Can't save ", flat, err);
@@ -20,7 +22,29 @@ FlatDataManager.prototype.saveFlat = function saveFlat(flat) {
   });
 };
 
-FlatDataManager.prototype.flatExists = function flatExists(flatId, callback) {
+FlatDataManager.prototype.updateFlat = function updateFlat(flat) {
+  console.log('Updating flat ' + flat.id);
+
+  FlatModel.update({id: flat.id}, flat, function (err, elem) {
+    if (err) {
+      console.log("Can't update ", flat, err);
+    }
+  });
+};
+
+FlatDataManager.prototype.getUnfetchedFlats = function getUnfetchedFlats(onDone) {
+  FlatModel.find({
+    isFetched: false
+  }, function (err, res) {
+    if (err) {
+      console.log('Error in getUnfetchedFlats');
+    }
+
+    onDone(res);
+  });
+};
+
+FlatDataManager.prototype.flatExists = function flatExists(flatId, onDone) {
   FlatModel.find({
     id: flatId
   }, function (err, res) {
@@ -30,7 +54,7 @@ FlatDataManager.prototype.flatExists = function flatExists(flatId, callback) {
 
     var result = res.length > 0;
 
-    callback(err, result);
+    onDone(err, result);
   });
 };
 
