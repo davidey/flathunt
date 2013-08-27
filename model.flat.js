@@ -12,14 +12,14 @@ var FlatSchema = mongoose.Schema({
     location: String,
     availableDate: Date,
 
-
-    isFetched: false,
-
     description: String,
     bedrooms: Number,
     latitude: Number,
     longitude: Number,
-    images: mongoose.Schema.Types.Mixed
+    images: mongoose.Schema.Types.Mixed,
+
+    createdAt: {type: Date, default: new Date()},
+    isFetched: {type: Boolean, default: false}
   });
 
 var FlatModel = mongoose.model('flats', FlatSchema);
