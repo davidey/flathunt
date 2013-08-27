@@ -34,7 +34,7 @@ environments.test = environments.dev;
 environments.test.persistency = {
 	uri: 'mongodb://localhost/mocks',
 	options: {
-		mocks: require(path.join(__dirname, 'mock/mocks.js')),
+		// mocks: require(path.join(__dirname, 'mock/mocks.js')),
 		debug: false
 	}
 };
