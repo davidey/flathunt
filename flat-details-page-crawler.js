@@ -36,8 +36,10 @@ FlatDetailsPageCrawler.prototype.crawlEngine = function crawlEngine(window, call
   var coordinatesRe = /center=([\-0-9\.]+)%2C([\-0-9\.]+)/g;
   var match = coordinatesRe.exec(ll);
 
-  result.latitude = match[1];
-  result.longitude = match[2];
+  if (match) {
+    result.latitude = match[1];
+    result.longitude = match[2];
+  }
 
   result.bedrooms = $('#vip-attributes li:nth-child(3) p').text();
 
@@ -52,7 +54,6 @@ FlatDetailsPageCrawler.prototype.crawlEngine = function crawlEngine(window, call
 
     result.images.push(image);
   });
-
 
   callback(result);
 };
