@@ -15,7 +15,8 @@ var schema = new mongoose.Schema({
 var Flat = db.model('Flat', schema);
 
 app.get('/', function (req, res) {
-	Flat.find({}, function (err, models) {
+	var query = Flat.find({}).limit(10);
+    query.exec(function (err, models) {
 		content = '';
 		models.forEach(function (model) {
 			content += models.toString();
