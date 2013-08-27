@@ -58,12 +58,28 @@ Application.prototype.onFlatListManagerResult = function onFlatListManagerResult
 	}
 };
 
+Application.prototype.onFlatDetailsManagerResult = function onFlatDetailsManagerResult(result) {
+	var flat = result;
+	flat.isFetched = true;
+	this.flatDataManager.updateFlat(flat);
+};
+
 Application.prototype.endFlatListCrawling = function endFlatListCrawling() {
 	this.appProperties.set('oldestFlatFetch', this.startDate);
 	this.appProperties.save();
 
 	this.crawlQueue.stop();
+
+	this.enqueueFlatDetailsPages();
 }
+
+Application.prototype.enqueueFlatDetailsPages = function enqueueFlatDetailsPages() {
+	this.flatDataManager.getUnfetchedFlats(function (result) {
+		result.forEach(function (item, index) {
+			this.enqueueFlatDetails(item.get('id'), item.get('link'));
+		}.bind(this));
+	}.bind(this));
+};
 
 Application.prototype.saveItems = function saveItems(items) {
 	var countSkipped = 0;
