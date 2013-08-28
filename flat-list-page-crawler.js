@@ -54,7 +54,10 @@ FlatListPageCrawler.prototype.crawlEngine = function crawlEngine(window, callbac
 };
 
 FlatListPageCrawler.prototype.parseItem = function parseItem($item) {
-    var entry = {};
+    var entry = {
+      price: "0",
+      pricePeriod: "pw"
+    };
 
     entry.id = $item.find('a').attr('id').match(/([0-9]+)/g)[0];
     entry.title = $item.find('a').attr('title');
@@ -64,8 +67,10 @@ FlatListPageCrawler.prototype.parseItem = function parseItem($item) {
     var priceRe = /([0-9]+)([A-z]*)/gi;
     var priceMatch = priceRe.exec(price);
 
-    entry.price = priceMatch[1];
-    entry.pricePeriod = priceMatch[2];
+    if (priceMatch) {
+      entry.price = priceMatch[1];
+      entry.pricePeriod = priceMatch[2];
+    }
 
     entry.link = $item.find('a').attr('href');
     entry.thumbnail = $item.find('img.thumbnail').attr('src');
