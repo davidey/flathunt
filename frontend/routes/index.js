@@ -17,22 +17,26 @@ exports.index = function(req, res){
 			return;
 		}
 
-		var query = FlatModel.find({isFetched: true});
+		var query = FlatModel.find({isFetched: true, price: {$gte: 450}, availableDate: {$gte: new Date(1379203200000)}});
 		query.sort('-date');
 		query.limit(50);
 		query.exec(function (err, result) {
 			var dataSet = [];
 			result.forEach(function (item, index) {
+				var images = item.get('images');
+				var image = images.length > 0? images[0].src : item.get('thumbnail');
 				var data = {
 					title: item.get('title'),
-					thumbnail: item.get('thumbnail'),
+					thumbnail: image,
 					link: item.get('link'),
 					price: item.get('price').toString() + item.get('pricePeriod'),
 					availableDate: new Date(item.get('availableDate')).toDateString(),
-					sellerType: item.get('sellerType'),
+					isAgent: item.get('sellerType') === 'Agency',
 					location: item.get('location'),
 					bedrooms: item.get('bedrooms')
 				}
+
+				console.log(item.get('sellerType'), data.isAgent);
 				dataSet.push(data);
 			});
 

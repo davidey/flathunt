@@ -6,3 +6,45 @@ body {
 a {
   color: #00B7FF;
 }
+
+
+
+.flat-list li {
+	position: relative;
+	display: block;
+	margin-bottom: 30px;
+}
+
+.flat-list li:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+
+.flat-list li .thumb {
+	float: left;
+	width: 200px;
+	margin-right: 10px;
+}
+
+.flat-list li h2 {
+	display: inline;
+}
+
+.flat-list li .price {
+	position: absolute;
+	right: 10px;
+	bottom: 0px;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.flat-list li .date {
+	position: absolute;
+	left: 220px;
+	bottom: 0px;
+	font-size: 18px;
+}

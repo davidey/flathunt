@@ -1,14 +1,15 @@
-<ul>
+<ul class="flat-list">
 	{{#each data}}
 	<li>
-		<img src="{{thumbnail}}" class="img-polaroid"/>
-		<h2><a href="{{link}}">{{title}}</a></h2>
-	 	<h3>{{price}}</h3>
-	 	<span>{{availableDate}}</span>
-	 	<span>{{bedrooms}}</span>
-	 	<span>{{location}}</span><br />
-	 	<span>{{sellerType}}</span>
-	 	<br /> <br />
+		<img src="{{thumbnail}}" class="thumb img-polaroid"/>
+		<h3><a href="{{link}}">{{title}}</a></h3>
+	 	<span class="price">{{price}}</span>
+	 	<span class="date">Available on {{availableDate}}</span>
+	 	<span>{{bedrooms}} rooms, </span>
+	 	<span>{{location}}</span>
+	 	{{#unless isAgent}}
+	 	<span class="private label label-success">Private</span>
+	 	{{/unless}}
 	</li>
 	{{/each}}
 </ul>
