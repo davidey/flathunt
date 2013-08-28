@@ -17,8 +17,8 @@ exports.index = function(req, res){
 			return;
 		}
 
-		var query = FlatModel.find({isFetched: false});
-		query.sort('date');
+		var query = FlatModel.find({isFetched: true});
+		query.sort('-date');
 		query.limit(50);
 		query.exec(function (err, result) {
 			var dataSet = [];
