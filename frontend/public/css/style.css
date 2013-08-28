@@ -30,8 +30,10 @@ a {
 	margin-right: 10px;
 }
 
-.flat-list li h2 {
+.flat-list li h3 {
 	display: inline;
+	font-size: 18px;
+	line-height: 1.5em;
 }
 
 .flat-list li .price {
