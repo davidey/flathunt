@@ -10,23 +10,33 @@ var settings = Config.prod;
  */
 
 exports.index = function(req, res){
+	mongoose.disconnect();
 	mongoose.connect(settings.persistency.uri, function (err, response) {
 		if (err) {
 			console.log('Error connecting to persistency! ' + settings.persistency.uri);
 			return;
 		}
 
-		var query = FlatModel.find({isFetched: true});
-		query.limit(2);
-		// query.sort('date');
+		var query = FlatModel.find({isFetched: false});
+		query.sort('date');
+		query.limit(50);
 		query.exec(function (err, result) {
-			var data = [];
+			var dataSet = [];
 			result.forEach(function (item, index) {
-				console.log(item);
-				data.push({title: item.get('description')});
+				var data = {
+					title: item.get('title'),
+					thumbnail: item.get('thumbnail'),
+					link: item.get('link'),
+					price: item.get('price').toString() + item.get('pricePeriod'),
+					availableDate: new Date(item.get('availableDate')).toDateString(),
+					sellerType: item.get('sellerType'),
+					location: item.get('location'),
+					bedrooms: item.get('bedrooms')
+				}
+				dataSet.push(data);
 			});
 
-			res.render('index', {data: data});
+			res.render('index', {data: dataSet});
 		});
 	});
 };

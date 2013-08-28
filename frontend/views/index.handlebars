@@ -1,7 +1,14 @@
-<h1>Example App: Home</h1>
-
-{{#each data}}
-<div>
-  <h2>{{title}}</h2>
-</div>
-{{/each}}
+<ul>
+	{{#each data}}
+	<li>
+		<img src="{{thumbnail}}" class="img-polaroid"/>
+		<h2><a href="{{link}}">{{title}}</a></h2>
+	 	<h3>{{price}}</h3>
+	 	<span>{{availableDate}}</span>
+	 	<span>{{bedrooms}}</span>
+	 	<span>{{location}}</span><br />
+	 	<span>{{sellerType}}</span>
+	 	<br /> <br />
+	</li>
+	{{/each}}
+</ul>
