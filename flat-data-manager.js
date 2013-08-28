@@ -25,7 +25,7 @@ FlatDataManager.prototype.saveFlat = function saveFlat(flat) {
 FlatDataManager.prototype.updateFlat = function updateFlat(flat) {
   console.log('Updating flat ' + flat.id);
 
-  FlatModel.update({id: flat.id}, flat, function (err, elem) {
+  FlatModel.update({id: flat.id}, {$set: flat}, function (err, elem) {
     if (err) {
       console.log("Can't update ", flat, err);
     }
