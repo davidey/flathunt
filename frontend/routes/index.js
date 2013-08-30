@@ -30,6 +30,7 @@ exports.index = function(req, res){
 					thumbnail: image,
 					link: item.get('link'),
 					price: item.get('price').toString() + item.get('pricePeriod'),
+					addedDate: new Date(item.get('date')).toString(),
 					availableDate: new Date(item.get('availableDate')).toDateString(),
 					isAgent: item.get('sellerType') === 'Agency',
 					location: item.get('location'),

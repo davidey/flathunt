@@ -44,7 +44,14 @@ a {
 	font-weight: bold;
 }
 
-.flat-list li .date {
+.flat-list li .added-date {
+	position: absolute;
+	left: 220px;
+	bottom: 24px;
+	font-size: 14px;
+}
+
+.flat-list li .available-date {
 	position: absolute;
 	left: 220px;
 	bottom: 0px;
