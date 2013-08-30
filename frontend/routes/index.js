@@ -36,12 +36,46 @@ exports.index = function(req, res){
 					location: item.get('location'),
 					bedrooms: item.get('bedrooms')
 				}
-
-				console.log(item.get('sellerType'), data.isAgent);
 				dataSet.push(data);
 			});
 
 			res.render('index', {data: dataSet});
+		});
+	});
+};
+
+
+exports.map = function(req, res){
+	mongoose.disconnect();
+	mongoose.connect(settings.persistency.uri, function (err, response) {
+		if (err) {
+			console.log('Error connecting to persistency! ' + settings.persistency.uri);
+			return;
+		}
+
+		var query = FlatModel.find({isFetched: true, latitude: {$ne: null}, longitude: {$ne: null}});
+		query.sort('-date');
+		query.limit(500);
+		query.exec(function (err, result) {
+			var markerSet = [];
+			result.forEach(function (item, index) {
+				var images = item.get('images');
+				var image = images.length > 0? images[0].src : item.get('thumbnail');
+
+				var marker = {
+					latitude: item.get('latitude'),
+					longitude: item.get('longitude'),
+					title: item.get('title'),
+					thumbnail: image,
+					link: item.get('link'),
+					price: item.get('price').toString() + item.get('pricePeriod'),
+					availableDate: new Date(item.get('availableDate')).toDateString()
+				};
+
+				markerSet.push(marker);
+			});
+
+			res.render('map', {data: markerSet});
 		});
 	});
 };

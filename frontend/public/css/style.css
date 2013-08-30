@@ -57,3 +57,38 @@ a {
 	bottom: 0px;
 	font-size: 18px;
 }
+
+
+
+#map .thumb {
+	float: left;
+	width: 200px;
+	margin-right: 10px;	
+}
+
+#map h3 {
+	display: inline;
+	font-size: 18px;
+	line-height: 1.5em;
+}
+
+#map h3 a{
+	font-size: inherit;
+	line-height: inherit;
+}
+
+#map .price {
+	position: absolute;
+	right: 0px;
+	bottom: 5px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+
+#map .available-date {
+	position: absolute;
+	left: 210px;
+	bottom: 5px;
+	font-size: 18px;
+}
