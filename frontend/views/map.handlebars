@@ -23,7 +23,7 @@
 		});
 
 		google.maps.event.addListener(marker, "click", function (e) {
-			map.setCenter(marker.getPosition());
+			//map.setCenter(marker.getPosition());
 			infoWindow.setContent('<img src="{{thumbnail}}" class="thumb img-polaroid"/><h3><a href="{{link}}">{{title}}</a></h3><span class="price">{{price}}</span><span class="available-date">{{availableDate}}</span>');
 			infoWindow.open(map, this);
 		});
