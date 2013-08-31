@@ -14,3 +14,15 @@
 	</li>
 	{{/each}}
 </ul>
+
+{{#with pagination}}
+<div class="pagination pagination-large pagination-centered">
+    <ul>
+	    {{#if previousPage}}<li><a href="{{previousPage}}">Prev</a></li>{{/if}}
+	    {{#each pages}}
+	    <li{{#if isSelected}} class="active"{{/if}}><a href="{{value}}">{{value}}</a></li>
+	    {{/each}}
+	    {{#if nextPage}}<li><a href="{{nextPage}}">Next</a></li>{{/if}}
+    </ul>
+</div>
+{{/with}}

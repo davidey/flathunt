@@ -12,6 +12,7 @@
     "jsdom": "0.8.x",
     "contextify": "",
     "moment": "",
-    "underscore": ""
+    "underscore": "",
+    "async": "*"
   }
 }

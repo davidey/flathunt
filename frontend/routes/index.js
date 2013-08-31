@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var async = require('async');
 
 var Config = require('../../config.js');
 var Persistency = require('../../persistency.js');
@@ -17,12 +18,44 @@ exports.index = function(req, res){
 			return;
 		}
 
-		var query = FlatModel.find({isFetched: true, price: {$gte: 450}, availableDate: {$gte: new Date(1379203200000)}});
-		query.sort('-date');
-		query.limit(50);
-		query.exec(function (err, result) {
+		var pagination = {};
+		pagination.pageSize = 10;
+		pagination.currentPage = parseInt(req.params.page) || 1;
+
+		var criteria = {isFetched: true, price: {$gte: 450}, availableDate: {$gte: new Date(1379203200000)}};
+
+		async.parallel([
+			function retrieveCount(callback) {
+				FlatModel.count(criteria, callback);
+			}.bind(this),
+
+			function retrieveItems(callback) {
+				var query = FlatModel.find(criteria);
+				query.sort('-date');
+				query.limit(pagination.pageSize);
+				query.skip(pagination.pageSize * (pagination.currentPage - 1));
+				query.exec(callback);
+			}.bind(this)
+		],	function (err, resultSet) {
+			var retrieveCountResult = resultSet[0];
+			var retrieveItemsResult = resultSet[1];
+
+			var itemsCount = retrieveCountResult || 0;
+
+			pagination.totalPages = Math.ceil(retrieveCountResult / pagination.pageSize);
+			pagination.pages = [];
+			for (var i = 0, l = pagination.totalPages; i < l; i++) {
+				var value = i + 1;
+				pagination.pages.push({
+					value: value,
+					isSelected: value === pagination.currentPage
+					});
+			}
+			pagination.previousPage = pagination.currentPage === 1? null : pagination.currentPage - 1;
+			pagination.nextPage = pagination.currentPage === pagination.totalPages? null : pagination.currentPage + 1;
+
 			var dataSet = [];
-			result.forEach(function (item, index) {
+			retrieveItemsResult.forEach(function (item, index) {
 				var images = item.get('images');
 				var image = images.length > 0? images[0].src : item.get('thumbnail');
 				var data = {
@@ -39,8 +72,8 @@ exports.index = function(req, res){
 				dataSet.push(data);
 			});
 
-			res.render('index', {data: dataSet});
-		});
+			res.render('index', {data: dataSet, pagination: pagination});
+		}.bind(this));
 	});
 };
 
